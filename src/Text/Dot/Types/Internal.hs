@@ -1,4 +1,8 @@
-module Text.Dot.Types.Internal where
+module Text.Dot.Types.Internal (
+      module Text.Dot.Types.Internal
+    , Identity(..)
+    , Monoid(..)
+    ) where
 
 import           Control.Monad         (unless)
 import           Data.Functor.Identity (Identity (..))
@@ -29,8 +33,9 @@ data DecType = DecGraph
     deriving (Show, Eq)
 
 data DotGraph = Graph GraphType GraphName Dot
+    deriving (Show, Eq)
 data Dot = Node NodeId [Attribute]
-         | Edge NodeId NodeId -- Can only have one type of edge per graph type
+         | Edge NodeId NodeId [Attribute]
          | Declaration DecType [Attribute]
          | RawDot Text
          | Label Text
@@ -38,3 +43,6 @@ data Dot = Node NodeId [Attribute]
          | DotEmpty
     deriving (Show, Eq)
 
+instance Monoid Dot where
+    mappend d1 d2 = DotSeq d1 d2
+    mempty = DotEmpty

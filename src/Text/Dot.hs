@@ -1,6 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Text.Dot (
-      renderGraph
+      module Text.Dot.Gen
+    , renderGraph
     ) where
 
+import           Text.Dot.Gen
 import           Text.Dot.Render (renderGraph)

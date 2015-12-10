@@ -35,7 +35,7 @@ renderDot (Node nid ats) = do
     renderId nid
     renderAttributes ats
 
-renderDot (Edge from to) = do
+renderDot (Edge from to ats) = do
     renderId from
     tell " "
     t <- ask
@@ -44,6 +44,7 @@ renderDot (Edge from to) = do
         DirectedGraph   -> "->"
     tell " "
     renderId to
+    renderAttributes ats
 
 renderDot (Declaration t ats) = do
     renderDecType t
@@ -57,37 +58,39 @@ renderDot (Label t) = do
     tell t
 
 renderDot (DotSeq d1 d2) = do
-    indent
+    indent d1
     renderDot d1
     nl d1
-    indent
+    indent d2
     renderDot d2
-    nl d1
+    nl d2
   where
     nl :: Dot -> Render ()
     nl (DotSeq _ _) = return ()
+    nl DotEmpty = return ()
     nl _ = do
         tell ";"
         tell "\n"
 
-    indent :: Render ()
-    indent = do
+    indent :: Dot -> Render ()
+    indent (DotSeq _ _) = return ()
+    indent DotEmpty = return ()
+    indent _ = do
         level <- get
         tell $ T.pack $ replicate (level * 2) ' '
 
 renderDot DotEmpty = return ()
 
-renderDot _ = return ()
-
 renderAttributes :: [Attribute] -> Render ()
 renderAttributes ats = unless (null ats) $ do
+    tell " "
     tell "["
     mapM_ renderAttribute ats
     tell "]"
 
 renderAttribute :: Attribute -> Render ()
 renderAttribute (name, value) = do
-    tell $ quoted name
+    tell name
     tell "="
     tell $ quoted value
 
