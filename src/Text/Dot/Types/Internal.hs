@@ -34,11 +34,18 @@ data DecType = DecGraph
 
 data DotGraph = Graph GraphType GraphName Dot
     deriving (Show, Eq)
+
+data RankdirType = LR
+                 | TB
+    deriving (Show, Eq)
+
 data Dot = Node NodeId [Attribute]
          | Edge NodeId NodeId [Attribute]
          | Declaration DecType [Attribute]
+         | Subgraph Text Dot
          | RawDot Text
          | Label Text
+         | Rankdir RankdirType
          | DotSeq Dot Dot
          | DotEmpty
     deriving (Show, Eq)

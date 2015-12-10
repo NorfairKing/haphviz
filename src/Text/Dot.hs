@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Text.Dot (
       module Text.Dot.Gen
+    -- * Graph rendering
     , renderGraph
     ) where
 

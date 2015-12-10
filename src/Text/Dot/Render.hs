@@ -50,18 +50,34 @@ renderDot (Declaration t ats) = do
     renderDecType t
     renderAttributes ats
 
+renderDot (Subgraph name content) = do
+    tell "subgraph"
+    tell " "
+    tell name
+    tell " "
+    tell "{"
+    tell "\n"
+    indented $ renderDot content
+    indent
+    tell "}"
+
 renderDot (RawDot t) = tell t
+
+renderDot (Rankdir t) = do
+    tell "rankdir"
+    tell " = "
+    renderRankDirType t
 
 renderDot (Label t) = do
     tell "label"
-    tell " "
-    tell t
+    tell " = "
+    tell $ quoted t
 
 renderDot (DotSeq d1 d2) = do
-    indent d1
+    ind d1
     renderDot d1
     nl d1
-    indent d2
+    ind d2
     renderDot d2
     nl d2
   where
@@ -72,12 +88,13 @@ renderDot (DotSeq d1 d2) = do
         tell ";"
         tell "\n"
 
-    indent :: Dot -> Render ()
-    indent (DotSeq _ _) = return ()
-    indent DotEmpty = return ()
-    indent _ = do
+    ind :: Dot -> Render ()
+    ind (DotSeq _ _) = return ()
+    ind DotEmpty = return ()
+    ind _ = do
         level <- get
         tell $ T.pack $ replicate (level * 2) ' '
+
 
 renderDot DotEmpty = return ()
 
@@ -85,14 +102,21 @@ renderAttributes :: [Attribute] -> Render ()
 renderAttributes ats = unless (null ats) $ do
     tell " "
     tell "["
-    mapM_ renderAttribute ats
+    commaSeparated $ map renderAttribute ats
     tell "]"
+  where
+    commaSeparated [] = return ()
+    commaSeparated [r] = r
+    commaSeparated (r:rs) = do
+        r
+        tell ", "
+        commaSeparated rs
 
 renderAttribute :: Attribute -> Render ()
 renderAttribute (name, value) = do
     tell name
     tell "="
-    tell $ quoted value
+    tell $ quoteHtml value
 
 renderId :: NodeId -> Render ()
 renderId (Nameless i) = tell $ T.pack $ show i
@@ -103,13 +127,27 @@ renderDecType DecGraph = tell "graph"
 renderDecType DecNode  = tell "node"
 renderDotType DecEdge  = tell "edge"
 
+renderRankDirType :: RankdirType -> Render ()
+renderRankDirType TB = tell "TB"
+renderRankDirType LR = tell "LR"
+
+indent :: Render ()
+indent = do
+    level <- get
+    tell $ T.pack $ replicate (level * 2) ' '
+
 indented :: Render () -> Render ()
 indented func = do
     modify ((+) 1)
     func
-    modify ((-) 1)
+    modify (flip (-) 1)
 
 -- | Text processing utilities
 quoted :: Text -> Text
-quoted t = "\"" <> t <> "\""
+quoted t = if needsQuoting t then "\"" <> t <> "\"" else t
 
+quoteHtml :: Text -> Text
+quoteHtml t = "<" <> t <> ">"
+
+needsQuoting :: Text -> Bool
+needsQuoting = T.any (== ' ')
