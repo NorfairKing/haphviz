@@ -8,4 +8,4 @@ Graphviz code generation with Haskell
 There are some examples in the `examples` directory.
 
 Running them with `runhaskell examples/example.hs` will get you the graphviz code.
-If you have `xdot`, then you can run `runhaskell examples/example.hs` to see the graph visualized.
+If you have `xdot`, then you can run `runhaskell examples/example.hs | xdot` to see the graph visualized.
