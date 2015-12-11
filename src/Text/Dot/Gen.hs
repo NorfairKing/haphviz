@@ -15,6 +15,7 @@ import           Control.Monad.Writer    (WriterT, execWriterT, tell)
 
 import           Text.Dot.Types.Internal
 
+import           Control.Monad           (void)
 import           Data.Monoid             (Monoid (..), (<>))
 
 import           Data.Text               (Text)
@@ -185,6 +186,10 @@ subgraph name content = do
 -- | Cluster
 cluster :: Text -> DotGen () -> DotGen GraphName
 cluster name = subgraph $ "cluster_" <> name
+
+-- | Cluster, discarding the graph name
+cluster_ :: Text -> DotGen () -> DotGen ()
+cluster_ name subgraph = void $ cluster name subgraph
 
 -- * Miscelaneous
 -- ** Rankdir
