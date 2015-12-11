@@ -25,8 +25,16 @@ type DotGen = StateT State (WriterT Dot Identity)
 type State = Int -- Next nameless node number
 
 -- | Generate graph
-graph :: GraphType -> GraphName -> DotGen a -> DotGraph
+graph :: GraphType
+      -> GraphName -- ^ Graph name
+      -> DotGen a  -- ^ Content
+      -> DotGraph
 graph gt gn func = Graph gt gn $ genDot func
+
+graph_ :: GraphType
+       -> DotGen a -- ^ Content
+       -> DotGraph
+graph_ gt func = graph gt "haphviz" func
 
 -- | Generate Internal dot AST
 genDot :: DotGen a -> Dot
