@@ -11,6 +11,12 @@ copyright:           Tom Sydney Kerckhove 2015
 category:            Text
 build-type:          Simple
 cabal-version:       >=1.10
+License:             MIT
+License-file:        LICENSE
+
+source-repository head
+  type:              git
+  location:          https://github.com/NorfairKing/haphviz
 
 library
   exposed-modules:     Text.Dot
