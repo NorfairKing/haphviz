@@ -1,10 +1,15 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Text.Dot.Render (renderGraph) where
+module Text.Dot.Render (
+      renderGraph
+    , renderToFile
+    , renderToStdOut
+    ) where
 
 import           Control.Monad           (unless)
 import           Data.Monoid
 import           Data.Text               (Text)
 import qualified Data.Text               as T
+import qualified Data.Text.IO            as T
 
 import           Control.Monad.Identity  (Identity (..))
 import           Control.Monad.Reader    (ReaderT, ask, runReaderT)
@@ -15,6 +20,11 @@ import           Text.Dot.Types.Internal
 
 type Render = ReaderT GraphType (StateT Int (WriterT Text Identity))
 
+renderToFile :: FilePath -> DotGraph -> IO ()
+renderToFile file g = T.writeFile file $ renderGraph g
+
+renderToStdOut :: DotGraph -> IO ()
+renderToStdOut = T.putStrLn . renderGraph
 
 renderGraph :: DotGraph -> Text
 renderGraph (Graph gtype name content) = mconcat
