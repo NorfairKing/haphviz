@@ -2,11 +2,11 @@
 module Text.Dot.Render (renderGraph) where
 
 import           Control.Monad           (unless)
-import           Data.Functor.Identity   (Identity (..))
 import           Data.Monoid
 import           Data.Text               (Text)
 import qualified Data.Text               as T
 
+import           Control.Monad.Identity  (Identity (..))
 import           Control.Monad.Reader    (ReaderT, ask, runReaderT)
 import           Control.Monad.State     (StateT, execStateT, get, modify)
 import           Control.Monad.Writer    (WriterT, execWriterT, tell)

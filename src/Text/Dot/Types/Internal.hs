@@ -4,14 +4,14 @@ module Text.Dot.Types.Internal (
     , Monoid(..)
     ) where
 
-import           Control.Monad         (unless)
-import           Data.Functor.Identity (Identity (..))
+import           Control.Monad          (unless)
 import           Data.Monoid
-import           Data.Text             (Text)
-import qualified Data.Text             as T
+import           Data.Text              (Text)
+import qualified Data.Text              as T
 
-import           Control.Monad.Reader  (ReaderT, ask, runReaderT)
-import           Control.Monad.Writer  (WriterT, execWriterT, tell)
+import           Control.Monad.Identity (Identity (..))
+import           Control.Monad.Reader   (ReaderT, ask, runReaderT)
+import           Control.Monad.Writer   (WriterT, execWriterT, tell)
 
 
 type GraphName = Text
