@@ -52,6 +52,6 @@ script:
  - cabal build
 
  - cabal test
-  
- # TODO(kerckhove) Test whether a package can be generated
+ 
+ - cabal sdist 
 
