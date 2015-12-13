@@ -7,5 +7,19 @@ Graphviz code generation with Haskell
 
 There are some examples in the `examples` directory.
 
-Running them with `runhaskell examples/example.hs` will get you the graphviz code.
-If you have `xdot`, then you can run `runhaskell examples/example.hs` to see the graph visualized.
+Running them with `runhaskell examples/divisors.hs` will get you the graphviz code.
+If you have `xdot`, then you can run `runhaskell examples/divisors.hs | xdot` to see the graph visualized.
+
+Haphviz offers an easy way to generate FSA visualisations.
+For an example, run the following command:
+
+```
+runhaskell examples/fsa.sh | xdot
+```
+
+## Git hooks
+
+Before making any contributions, please install the git hooks.
+```
+spark deploy hooks.sus
+```
