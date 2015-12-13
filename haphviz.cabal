@@ -2,9 +2,15 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                haphviz
-version:             0.1.0.1
+version:             0.1.0.2
 synopsis:            Graphviz code generation with Haskell
-description:         Graphviz code generation with Haskell
+description:
+  There are multiple ways to describe this package:
+
+  - "A Turing-complete encoding system for graphviz"
+  - "A graph visualization code generation EDSL"
+  - "An easy way to draw graphs"
+
 author:              Tom Sydney Kerckhove
 maintainer:          syd.kerckhove@gmail.com
 copyright:           Tom Sydney Kerckhove 2015
@@ -20,6 +26,7 @@ source-repository head
 
 library
   exposed-modules:     Text.Dot
+                       Text.Dot.Gen.FSA
   other-modules:       Text.Dot.Gen
                        Text.Dot.Render
                        Text.Dot.Types.Internal
