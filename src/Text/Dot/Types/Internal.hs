@@ -60,7 +60,7 @@ instance Monoid Dot where
     mappend d DotEmpty = d
 
     -- Associativity
-    mappend (DotSeq d1 d2) d = DotSeq d1 $ mappend d2 d
+    mappend d (DotSeq d1 d2) = DotSeq (mappend d d1) d2
 
     mappend d1 d2 = DotSeq d1 d2
 

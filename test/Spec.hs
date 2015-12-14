@@ -1,4 +1,5 @@
-import           Dot.Types.Arbitrary
+import           Text.Dot.Types.Arbitrary
+import           Text.Dot.Types.Internal
 
 import           Control.Exception        (evaluate)
 import           Control.Monad            (forM_)
