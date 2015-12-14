@@ -51,5 +51,17 @@ data Dot = Node NodeId [Attribute]
     deriving (Show, Eq)
 
 instance Monoid Dot where
-    mappend d1 d2 = DotSeq d1 d2
     mempty = DotEmpty
+
+    -- Left identity
+    mappend DotEmpty d = d
+
+    -- Right identity
+    mappend d DotEmpty = d
+
+    -- Associativity
+    mappend (DotSeq d1 d2) d = DotSeq d1 $ mappend d2 d
+
+    mappend d1 d2 = DotSeq d1 d2
+
+

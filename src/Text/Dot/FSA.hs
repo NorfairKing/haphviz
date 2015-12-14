@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Text.Dot.Gen.FSA where
+module Text.Dot.FSA where
 
 import           Text.Dot
 

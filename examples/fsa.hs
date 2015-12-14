@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 import           Text.Dot
-import           Text.Dot.Gen.FSA
+import           Text.Dot.FSA
 
-import qualified Data.Text.IO     as T
+import qualified Data.Text.IO as T
 
 
 main :: IO ()
