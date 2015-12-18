@@ -14,7 +14,7 @@ Haphviz offers an easy way to generate FSA visualisations.
 For an example, run the following command:
 
 ```
-runhaskell examples/fsa.sh | xdot
+runhaskell examples/fsa.hs | xdot
 ```
 
 ## Git hooks
