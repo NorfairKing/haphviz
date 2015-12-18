@@ -2,15 +2,17 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                haphviz
-version:             0.1.1.1
+version:             0.1.1.4
 synopsis:            Graphviz code generation with Haskell
 description:
   There are multiple ways to describe this package:
-
-  - "A Turing-complete encoding system for graphviz"
-  - "A graph visualization code generation EDSL"
-  - "An easy way to draw graphs"
-
+  .
+  * "A Turing-complete encoding system for graphviz"
+  .
+  * "A graph visualization code generation EDSL"
+  .
+  * "An easy way to draw graphs"
+  .
   If any combinators are still missing, feel free to shoot the maintainer an email!
 
 author:              Tom Sydney Kerckhove
