@@ -1,4 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
+
+-- | Rendering Graphviz code from Haphviz graphs
 module Text.Dot.Render (
       renderGraph
     , renderToFile
@@ -20,12 +22,15 @@ import           Text.Dot.Types.Internal
 
 type Render = ReaderT GraphType (StateT Int (WriterT Text Identity))
 
+-- | Render a given graph and write the result to the given file
 renderToFile :: FilePath -> DotGraph -> IO ()
 renderToFile file g = T.writeFile file $ renderGraph g
 
+-- | Render a given graph and print it to std out
 renderToStdOut :: DotGraph -> IO ()
 renderToStdOut = T.putStrLn . renderGraph
 
+-- | Render a graph to graphviz code
 renderGraph :: DotGraph -> Text
 renderGraph (Graph gtype name content) = mconcat
     [ "digraph"

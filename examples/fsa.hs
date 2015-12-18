@@ -7,15 +7,11 @@ import qualified Data.Text.IO as T
 
 
 main :: IO ()
-main = T.putStrLn $ renderGraph g
-
-g :: DotGraph
-g = fsaGraph
-        [a, b, c]
-        a
-        [b]
-        [(a, b, p), (b, b, q), (b, c, p)]
-
+main = renderToStdOut $ fsaGraph
+            [a, b, c]
+            a
+            [b]
+            [(a, b, p), (b, b, q), (b, c, p)]
   where
     a = "a"
     b = "b"

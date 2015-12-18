@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+-- | Easy FSA visualisation
 module Text.Dot.FSA where
 
 import           Text.Dot
@@ -11,9 +12,34 @@ import qualified Data.Text     as T
 import qualified Data.Text.IO  as T
 
 -- | An easy way to generate an FSA visualization
+--
+-- You only need to specify the FSA definition and Haphviz takes care of the rest.
+--
+-- > main :: IO ()
+-- > main = renderToStdOut $ fsaGraph
+-- >             ["a", "b", "c"]
+-- >             "a"
+-- >             ["b"]
+-- >             [("a", "b", "p"), ("b", "b", "q"), ("b", "c", "p")]
+--
+-- >>> runhaskell fsa.hs
+-- > digraph haphviz {
+-- >     node [width=<0>, height=<0>];
+-- >     rankdir = LR;
+-- >     0 [label=<a>];
+-- >     1 [label=<b>, shape=<doublecircle>];
+-- >     2 [label=<c>];
+-- >     3 [style=<invis>];
+-- >     3 -> 0;
+-- >     0 -> 1 [label=<p>];
+-- >     1 -> 1 [label=<q>];
+-- >     1 -> 2 [label=<p>];
+-- > }
+--
+--
 fsaGraph :: [Text] -- ^ Set of states
-          -> Text -- Initial state
-          -> [Text] -- Accepting states
+          -> Text -- ^ Initial state
+          -> [Text] -- ^ Accepting states
           -> [(Text, Text, Text)] -- ^ Edges: From, To, Symbol
           -> DotGraph
 fsaGraph states initial accepting edges = graph_ directed $ do
