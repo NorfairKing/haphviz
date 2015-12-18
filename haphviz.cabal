@@ -11,6 +11,8 @@ description:
   - "A graph visualization code generation EDSL"
   - "An easy way to draw graphs"
 
+  If any combinators are still missing, feel free to shoot the maintainer an email!
+
 author:              Tom Sydney Kerckhove
 maintainer:          syd.kerckhove@gmail.com
 copyright:           Tom Sydney Kerckhove 2015
