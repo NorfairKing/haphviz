@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                haphviz
-version:             0.1.0.2
+version:             0.1.1.1
 synopsis:            Graphviz code generation with Haskell
 description:
   There are multiple ways to describe this package:
@@ -10,6 +10,8 @@ description:
   - "A Turing-complete encoding system for graphviz"
   - "A graph visualization code generation EDSL"
   - "An easy way to draw graphs"
+
+  If any combinators are still missing, feel free to shoot the maintainer an email!
 
 author:              Tom Sydney Kerckhove
 maintainer:          syd.kerckhove@gmail.com
@@ -26,9 +28,12 @@ source-repository head
 
 library
   exposed-modules:     Text.Dot
-                       Text.Dot.Gen.FSA
-  other-modules:       Text.Dot.Gen
+                       Text.Dot.Gen
+                       Text.Dot.FSA
                        Text.Dot.Render
+                       Text.Dot.Attributes
+                       Text.Dot.Attributes.Arrows
+                       Text.Dot.Attributes.Styles
                        Text.Dot.Types.Internal
   -- other-extensions:    
   build-depends:       base         >= 4.6   && <  4.10
@@ -36,3 +41,18 @@ library
                      , mtl          >= 2.2   && <  2.3
   hs-source-dirs:      src
   default-language:    Haskell2010
+
+test-suite haphviz-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       base
+                     , haphviz
+                     , hspec
+                     , QuickCheck
+                     , checkers
+                     , quickcheck-text
+                     , text
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
