@@ -2,6 +2,7 @@
 -- | Generating graph contents
 module Text.Dot.Gen (
       module Text.Dot.Gen
+    , module Text.Dot.Attributes
 
     , Dot
     , DotGraph
@@ -16,6 +17,7 @@ module Text.Dot.Gen (
 import           Control.Monad.State     (StateT, execStateT, get, modify)
 import           Control.Monad.Writer    (WriterT, execWriterT, tell)
 
+import           Text.Dot.Attributes
 import           Text.Dot.Types.Internal
 
 import           Control.Monad           (void)
@@ -185,70 +187,6 @@ n1 --> n2 = genEdge n1 n2 []
 -- > [label="MyNode"]
 (=:) :: AttributeName -> AttributeValue -> Attribute
 (=:) = (,)
-
--- ** Attribute Names
-
--- |
--- >>> label
--- > label
-label :: AttributeName
-label = "label"
-
--- |
--- >>> compound
--- > compound
-compound :: AttributeName
-compound = "compound"
-
--- |
--- >>> shape
--- > shape
-shape :: AttributeName
-shape = "shape"
-
--- |
--- >>> color
--- > color
-color :: AttributeName
-color = "color"
-
--- |
--- >>> dir
--- > dir
-dir :: AttributeName
-dir = "dir"
-
--- |
--- >>> width
--- > width
-width :: AttributeName
-width = "width"
-
--- |
--- >>> height
--- > height
-height :: AttributeName
-height = "height"
-
--- ** Attribute values
-
--- |
--- >>> true
--- > true
-true :: AttributeValue
-true = "true"
-
--- |
--- >>> true
--- > true
-false :: AttributeValue
-false = "false"
-
--- |
--- >>> none
--- > none
-none :: AttributeValue
-none = "none"
 
 
 -- * Declarations

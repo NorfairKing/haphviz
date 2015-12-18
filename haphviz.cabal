@@ -29,6 +29,8 @@ library
                        Text.Dot.Gen
                        Text.Dot.FSA
                        Text.Dot.Render
+                       Text.Dot.Attributes
+                       Text.Dot.Attributes.Arrows
                        Text.Dot.Types.Internal
   -- other-extensions:    
   build-depends:       base         >= 4.6   && <  4.10
