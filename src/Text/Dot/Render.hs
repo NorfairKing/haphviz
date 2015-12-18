@@ -144,6 +144,8 @@ renderDotType DecEdge  = tell "edge"
 
 renderRankDirType :: RankdirType -> Render ()
 renderRankDirType TB = tell "TB"
+renderRankDirType BT = tell "BT"
+renderRankDirType RL = tell "RL"
 renderRankDirType LR = tell "LR"
 
 indent :: Render ()

@@ -61,7 +61,9 @@ data DotGraph = Graph GraphType GraphName Dot
 --
 -- Used to specify the default node layout direction
 data RankdirType = LR
+                 | RL
                  | TB
+                 | BT
     deriving (Show, Eq)
 
 -- | Haphviz internal graph content AST

@@ -252,13 +252,29 @@ subgraph name content = do
 rankdir :: RankdirType -> DotGen ()
 rankdir = tell . Rankdir
 
--- | > LR
+-- |
+-- >>> leftRight
+-- > LR
 leftRight :: RankdirType
 leftRight = LR
 
--- | > TB
+-- |
+-- >>> rightLeft
+-- > RL
+rightLeft :: RankdirType
+rightLeft = RL
+
+-- |
+-- >>> topBottom
+-- > TB
 topBottom :: RankdirType
 topBottom = TB
+
+-- |
+-- >>> bottomTop
+-- > BT
+bottomTop :: RankdirType
+bottomTop = BT
 
 -- ** Labels
 -- | Label declaration for graphs or subgraphs
