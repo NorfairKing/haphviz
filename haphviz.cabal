@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                haphviz
-version:             0.1.1.0
+version:             0.1.1.1
 synopsis:            Graphviz code generation with Haskell
 description:
   There are multiple ways to describe this package:
@@ -31,6 +31,7 @@ library
                        Text.Dot.Render
                        Text.Dot.Attributes
                        Text.Dot.Attributes.Arrows
+                       Text.Dot.Attributes.Styles
                        Text.Dot.Types.Internal
   -- other-extensions:    
   build-depends:       base         >= 4.6   && <  4.10

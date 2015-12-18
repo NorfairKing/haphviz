@@ -1,5 +1,4 @@
 {-# LANGUAGE OverloadedStrings #-}
--- | Attribute names
 module Text.Dot.Attributes.Arrows where
 
 import           Text.Dot.Types.Internal
@@ -49,9 +48,6 @@ invempty = "invempty"
 
 invodot :: AttributeValue
 invodot = "invodot"
-
-none :: AttributeValue
-none = "none"
 
 normal :: AttributeValue
 normal = "normal"
