@@ -1,6 +1,12 @@
+{-# LANGUAGE CPP #-}
 module Text.Dot.Types.Arbitrary where
 
 import           Text.Dot.Types.Internal
+
+#if !MIN_VERSION_base(4,8,0)
+import           Control.Applicative
+import           Data.Monoid
+#endif
 
 import           Data.Text                (Text)
 import qualified Data.Text                as T
