@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                haphviz
-version:             0.1.1.4
+version:             0.1.1.5
 synopsis:            Graphviz code generation with Haskell
 description:
   There are multiple ways to describe this package:

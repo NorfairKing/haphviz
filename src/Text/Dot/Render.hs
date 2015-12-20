@@ -33,7 +33,9 @@ renderToStdOut = T.putStrLn . renderGraph
 -- | Render a graph to graphviz code
 renderGraph :: DotGraph -> Text
 renderGraph (Graph gtype name content) = mconcat
-    [ "digraph"
+    [ case gtype of
+        DirectedGraph -> "digraph"
+        UndirectedGraph -> "graph"
     , " "
     , name
     , " "
