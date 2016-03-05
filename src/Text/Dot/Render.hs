@@ -49,10 +49,14 @@ renderGraph (Graph gtype name content) = mconcat
 renderDot :: Dot -> Render ()
 
 renderDot (Node nid ats) = do
+    indent
     renderId nid
     renderAttributes ats
+    finishCommand
+    newline
 
 renderDot (Edge from to ats) = do
+    indent
     renderId from
     tell " "
     t <- ask
@@ -62,56 +66,59 @@ renderDot (Edge from to ats) = do
     tell " "
     renderId to
     renderAttributes ats
+    finishCommand
+    newline
 
 renderDot (Declaration t ats) = do
+    indent
     renderDecType t
     renderAttributes ats
+    finishCommand
+    newline
 
 renderDot (Subgraph name content) = do
+    indent
     tell "subgraph"
     tell " "
     tell name
     tell " "
     tell "{"
-    tell "\n"
+    newline
     indented $ renderDot content
     indent
     tell "}"
+    newline
 
 renderDot (RawDot t) = tell t
 
 renderDot (Rankdir t) = do
+    indent
     tell "rankdir"
     tell " = "
     renderRankDirType t
+    finishCommand
+    newline
 
 renderDot (Label t) = do
+    indent
     tell "label"
     tell " = "
     tell $ quoted t
+    finishCommand
+    newline
+
+renderDot (Ranksame d) = do
+    indent
+    braced $ do
+        tell " rank=same"
+        newline
+        indented $ renderDot d
+        indent
+    newline
 
 renderDot (DotSeq d1 d2) = do
-    ind d1
     renderDot d1
-    nl d1
-    ind d2
     renderDot d2
-    nl d2
-  where
-    nl :: Dot -> Render ()
-    nl (DotSeq _ _) = return ()
-    nl DotEmpty = return ()
-    nl _ = do
-        tell ";"
-        tell "\n"
-
-    ind :: Dot -> Render ()
-    ind (DotSeq _ _) = return ()
-    ind DotEmpty = return ()
-    ind _ = do
-        level <- get
-        tell $ T.pack $ replicate (level * 2) ' '
-
 
 renderDot DotEmpty = return ()
 
@@ -149,6 +156,18 @@ renderRankDirType TB = tell "TB"
 renderRankDirType BT = tell "BT"
 renderRankDirType RL = tell "RL"
 renderRankDirType LR = tell "LR"
+
+newline :: Render ()
+newline = tell "\n"
+
+finishCommand :: Render ()
+finishCommand = tell ";"
+
+braced :: Render () -> Render ()
+braced content = do
+    tell "{"
+    content
+    tell "}"
 
 indent :: Render ()
 indent = do
