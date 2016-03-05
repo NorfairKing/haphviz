@@ -14,8 +14,10 @@ module Text.Dot.Gen (
     , RankdirType
     ) where
 
-import           Control.Monad.State     (StateT, execStateT, get, modify)
-import           Control.Monad.Writer    (WriterT, execWriterT, tell)
+import           Control.Monad.State     (StateT, execStateT, get, modify, put,
+                                          runStateT)
+import           Control.Monad.Writer    (WriterT, execWriterT, runWriterT,
+                                          tell)
 
 import           Text.Dot.Attributes
 import           Text.Dot.Types.Internal
@@ -58,7 +60,10 @@ genDot = genSubDot 0
 
 -- | Utility function to generate a graph with nameless nodes starting from a given starting number.
 genSubDot :: Int -> DotGen a -> Dot
-genSubDot n func = runIdentity $ execWriterT $ execStateT func n
+genSubDot n func = snd $ genSubDot' n func
+
+genSubDot' :: Int -> DotGen a -> ((a, State), Dot)
+genSubDot' n func = runIdentity $ runWriterT $ runStateT func n
 
 -- * Graph types
 
@@ -236,8 +241,9 @@ cluster_ name subgraph = void $ cluster name subgraph
 subgraph :: Text -> DotGen () -> DotGen GraphName
 subgraph name content = do
     n <- get
-    let c = genSubDot n content
-    tell $ Subgraph name c
+    let (((), newn), dot) = genSubDot' n content
+    tell $ Subgraph name dot
+    put newn
     return name
 
 -- * Miscelaneous
@@ -289,6 +295,20 @@ labelDec = tell . Label
      -> NodeId
 (UserId t) .: p = UserId $ t <> ":" <> p
 (Nameless i) .: p = UserId $ T.pack (show i) <> ":" <> p
+
+-- * Ranks
+
+-- | {rank=same ... } declaration
+--
+-- >>> ranksame $ node [shape =: none]
+-- > node [shape=none];
+ranksame :: DotGen a -> DotGen a
+ranksame content = do
+    n <- get
+    let ((a, state), dot) = genSubDot' n content
+    put state
+    tell $ Ranksame dot
+    return a
 
 -- * Internals
 -- | Generation monad

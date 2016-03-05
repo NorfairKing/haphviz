@@ -70,6 +70,7 @@ data RankdirType = LR
 data Dot = Node NodeId [Attribute]
          | Edge NodeId NodeId [Attribute]
          | Declaration DecType [Attribute]
+         | Ranksame Dot
          | Subgraph Text Dot
          | RawDot Text
          | Label Text
