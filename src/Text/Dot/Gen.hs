@@ -228,23 +228,23 @@ edgeDec = genDec DecEdge
 -- | Cluster with a given name
 --
 -- The @cluster_@ prefix is taken care of.
-cluster :: Text -> DotGen () -> DotGen GraphName
+cluster :: Text -> DotGen a -> DotGen (GraphName, a)
 cluster name = subgraph $ "cluster_" <> name
 
 -- | Like 'cluster', discarding the graph name.
-cluster_ :: Text -> DotGen () -> DotGen ()
-cluster_ name subgraph = void $ cluster name subgraph
+cluster_ :: Text -> DotGen a -> DotGen a
+cluster_ name subgraph = snd <$> cluster name subgraph
 
 -- | Subgraph declaration
 --
 -- This is rarely useful. Just use 'cluster'.
-subgraph :: Text -> DotGen () -> DotGen GraphName
+subgraph :: Text -> DotGen a -> DotGen (GraphName, a)
 subgraph name content = do
     n <- get
-    let (((), newn), dot) = genSubDot' n content
+    let ((a, newn), dot) = genSubDot' n content
     tell $ Subgraph name dot
     put newn
-    return name
+    return (name, a)
 
 -- * Miscelaneous
 -- ** Rankdir
