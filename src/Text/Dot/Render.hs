@@ -149,7 +149,7 @@ renderId (UserId t) = tell $ quoted t
 renderDecType :: DecType -> Render ()
 renderDecType DecGraph = tell "graph"
 renderDecType DecNode  = tell "node"
-renderDotType DecEdge  = tell "edge"
+renderDecType DecEdge  = tell "edge"
 
 renderRankDirType :: RankdirType -> Render ()
 renderRankDirType TB = tell "TB"
