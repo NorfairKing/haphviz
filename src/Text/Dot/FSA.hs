@@ -11,7 +11,6 @@ import           Data.Maybe     (fromMaybe, isNothing)
 
 import           Data.Text
 import qualified Data.Text      as T
-import qualified Data.Text.IO   as T
 
 -- | An easy way to generate an FSA visualization
 --

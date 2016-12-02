@@ -14,16 +14,13 @@ module Text.Dot.Gen (
     , RankdirType
     ) where
 
-import           Control.Monad.State     (StateT, execStateT, get, modify, put,
-                                          runStateT)
-import           Control.Monad.Writer    (WriterT, execWriterT, runWriterT,
-                                          tell)
-
 import           Text.Dot.Attributes
 import           Text.Dot.Types.Internal
 
-import           Control.Monad           (void)
-import           Data.Monoid             (Monoid (..), (<>))
+import           Control.Monad.State     (StateT, get, modify, put, runStateT)
+import           Control.Monad.Writer    (WriterT, runWriterT, tell)
+
+import           Data.Monoid             ((<>))
 
 import           Data.Text               (Text)
 import qualified Data.Text               as T
