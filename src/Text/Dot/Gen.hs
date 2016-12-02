@@ -14,14 +14,13 @@ module Text.Dot.Gen (
     , RankdirType
     ) where
 
-import           Control.Monad.State     (StateT, execStateT, get, modify)
-import           Control.Monad.Writer    (WriterT, execWriterT, tell)
-
 import           Text.Dot.Attributes
 import           Text.Dot.Types.Internal
 
-import           Control.Monad           (void)
-import           Data.Monoid             (Monoid (..), (<>))
+import           Control.Monad.State     (StateT, get, modify, put, runStateT)
+import           Control.Monad.Writer    (WriterT, runWriterT, tell)
+
+import           Data.Monoid             ((<>))
 
 import           Data.Text               (Text)
 import qualified Data.Text               as T
@@ -58,7 +57,10 @@ genDot = genSubDot 0
 
 -- | Utility function to generate a graph with nameless nodes starting from a given starting number.
 genSubDot :: Int -> DotGen a -> Dot
-genSubDot n func = runIdentity $ execWriterT $ execStateT func n
+genSubDot n func = snd $ genSubDot' n func
+
+genSubDot' :: Int -> DotGen a -> ((a, State), Dot)
+genSubDot' n func = runIdentity $ runWriterT $ runStateT func n
 
 -- * Graph types
 
@@ -223,22 +225,23 @@ edgeDec = genDec DecEdge
 -- | Cluster with a given name
 --
 -- The @cluster_@ prefix is taken care of.
-cluster :: Text -> DotGen () -> DotGen GraphName
+cluster :: Text -> DotGen a -> DotGen (GraphName, a)
 cluster name = subgraph $ "cluster_" <> name
 
 -- | Like 'cluster', discarding the graph name.
-cluster_ :: Text -> DotGen () -> DotGen ()
-cluster_ name subgraph = void $ cluster name subgraph
+cluster_ :: Text -> DotGen a -> DotGen a
+cluster_ name subgraph = snd <$> cluster name subgraph
 
 -- | Subgraph declaration
 --
 -- This is rarely useful. Just use 'cluster'.
-subgraph :: Text -> DotGen () -> DotGen GraphName
+subgraph :: Text -> DotGen a -> DotGen (GraphName, a)
 subgraph name content = do
     n <- get
-    let c = genSubDot n content
-    tell $ Subgraph name c
-    return name
+    let ((a, newn), dot) = genSubDot' n content
+    tell $ Subgraph name dot
+    put newn
+    return (name, a)
 
 -- * Miscelaneous
 -- ** Rankdir
@@ -289,6 +292,20 @@ labelDec = tell . Label
      -> NodeId
 (UserId t) .: p = UserId $ t <> ":" <> p
 (Nameless i) .: p = UserId $ T.pack (show i) <> ":" <> p
+
+-- * Ranks
+
+-- | {rank=same ... } declaration
+--
+-- >>> ranksame $ node [shape =: none]
+-- > node [shape=none];
+ranksame :: DotGen a -> DotGen a
+ranksame content = do
+    n <- get
+    let ((a, state), dot) = genSubDot' n content
+    put state
+    tell $ Ranksame dot
+    return a
 
 -- * Internals
 -- | Generation monad

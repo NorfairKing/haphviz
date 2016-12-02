@@ -9,14 +9,9 @@ module Text.Dot.Types.Internal (
     , Monoid(..)
     ) where
 
-import           Control.Monad          (unless)
-import           Data.Monoid
 import           Data.Text              (Text)
-import qualified Data.Text              as T
 
 import           Control.Monad.Identity (Identity (..))
-import           Control.Monad.Reader   (ReaderT, ask, runReaderT)
-import           Control.Monad.Writer   (WriterT, execWriterT, tell)
 
 
 -- | Internal name of a graph, used to reference graphs and subgraphs
@@ -70,6 +65,7 @@ data RankdirType = LR
 data Dot = Node NodeId [Attribute]
          | Edge NodeId NodeId [Attribute]
          | Declaration DecType [Attribute]
+         | Ranksame Dot
          | Subgraph Text Dot
          | RawDot Text
          | Label Text
