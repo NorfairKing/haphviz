@@ -6,6 +6,7 @@ main :: IO ()
 main = renderToStdOut $ graph directed "example" $ do
         a <- newNode
         b <- newNode
+        c <- newNode
         ranksame $ do
             node_ a "a"
             node_ c "c"

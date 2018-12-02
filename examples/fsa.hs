@@ -7,7 +7,7 @@ import qualified Data.Text.IO as T
 
 
 main :: IO ()
-main = renderToStdOut $ fsaGraph
+main = renderToStdOut $ fsaGraph $ FSA
             [a, b, c]
             a
             [b]
