@@ -74,19 +74,19 @@ data Dot = Node NodeId [Attribute]
          | DotEmpty
     deriving (Show, Eq)
 
+-- | Dot is a semigroup, duh, that's the point.
+instance Semigroup Dot where
+    -- Left identity
+    (<>) DotEmpty d = d
+
+    -- Right identity
+    (<>) d DotEmpty = d
+
+    -- Associativity
+    (<>) d (DotSeq d1 d2) = DotSeq ((<>) d d1) d2
+
+    (<>) d1 d2 = DotSeq d1 d2
+
 -- | Dot is a monoid, duh, that's the point.
 instance Monoid Dot where
     mempty = DotEmpty
-
-    -- Left identity
-    mappend DotEmpty d = d
-
-    -- Right identity
-    mappend d DotEmpty = d
-
-    -- Associativity
-    mappend d (DotSeq d1 d2) = DotSeq (mappend d d1) d2
-
-    mappend d1 d2 = DotSeq d1 d2
-
-
