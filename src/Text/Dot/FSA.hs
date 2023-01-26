@@ -9,7 +9,7 @@ import           Text.Dot.Class
 import           Control.Monad  (forM, forM_, when)
 import           Data.Maybe     (fromMaybe, isNothing)
 
-import           Data.Text
+import           Data.Text (Text)
 import qualified Data.Text      as T
 
 -- | An easy way to generate an FSA visualization
